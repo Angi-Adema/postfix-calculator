@@ -125,8 +125,8 @@ public class PostfixCalculator {
 					// Print only if result is not an error or null
 					if (result != null) {
 					
-					// Print result of call to inputPostfix() to process the text
-					System.out.println(postfix + " result is " + inputPostfix(postfix));
+						// Print result of call to inputPostfix() to process the text
+						System.out.println(postfix + " result is " + result);
 					}
 				}
 			}
@@ -146,10 +146,10 @@ public class PostfixCalculator {
 				"12 14 + 3 -",      // 12+14 = 26-3 = 23    
 				"2 7 - 3 +",        // 2-7 = -5+3 = -2
 				"32 5 - 12 +",      // 32-5 = 27+12 = 39
-				"8 2 / 0 /",        // 8/2 = 4/0 = "Cannot divide by 0." will return result equal to 0
+				"8 2 / 0 /",        // 8/2 = 4/0 = "Cannot divide by 0." will return a null result
 				"12 4 / 2 +",       // 12/4 = 3+2 = 5
 				"15 2 % 5 +",       // 15 % 2 = 1+5 = 6
-				"6 * 3 2 +",        // 6 * = "Invalid postfix expression." will return result equal to 0
+				"6 * 3 2 +",        // 6 * = "Invalid postfix expression." will return a null result
 				"5 5 -"             // 5-5 = 0
 		};
 		
@@ -161,7 +161,7 @@ public class PostfixCalculator {
 			
 			// Print only if result is not an error or null
 			if (result != null) {
-			System.out.println(expression + " result of expression evaluation: " + result);
+				System.out.println(expression + " result of expression evaluation: " + result);
 			}
 		}
 		
