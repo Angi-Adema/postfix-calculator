@@ -29,7 +29,7 @@ public class PostfixCalculator {
 				// If the input is a number, push it onto the stack
 				stack.push(Integer.parseInt(token));
 				
-				// If the input is an operand, pop last two numbers from the stack,
+				// If the input is an operator, pop last two numbers from the stack,
 				// perform calculation, and push final value back onto the stack
 			} else {
 				
@@ -60,6 +60,7 @@ public class PostfixCalculator {
 						stack.push(value1 / value2);
 						} catch (ArithmeticException e) {
 							System.out.println("Cannot divide by 0.");
+							return 0;
 						}
 						break;
 					case "%":
@@ -67,6 +68,7 @@ public class PostfixCalculator {
 						stack.push(value1 % value2);
 						} catch (ArithmeticException e) {
 							System.out.println("Cannot divide by 0.");
+							return 0;
 						}
 						break;
 					default:
@@ -99,10 +101,10 @@ public class PostfixCalculator {
 	}
 	
 	// Method to handle reading from file
-	public static void inputFile() {
+	public static void inputFile(String fileName) {
 		
 		// Instantiate new file object using file path
-		File file = new File("fileName.txt");
+		File file = new File(fileName);
 		
 		// Read in file using try with resources
 		try (Scanner scanner = new Scanner(file)) {
@@ -116,8 +118,8 @@ public class PostfixCalculator {
 				// Confirm the input is not blank
 				if (!postfix.isBlank()) {
 					
-					// Call inputPostfix() to process the text
-					inputPostfix(postfix);
+					// Print result of call to inputPostfix() to process the text
+					System.out.println(postfix + " result is " + inputPostfix(postfix));
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -128,6 +130,22 @@ public class PostfixCalculator {
 
 	public static void main(String[] args) {
 		
+		// Initialize an array to hold test postfix expressions
+		String[] postfixTestExpressions = {
+				"3 8 + 2 *",
+				"12 14 + 3 -",
+				"2 7 - 3 +",
+				"32 5 - 12 +",
+				"8 2 / 0 /",
+				"12 4 / 2 +",
+				"15 2 % 5 +",
+				"6 * 3 2 +"
+		};
+		
+		// Call inputPostfix() to evaluate each expression and output the result
+		for (int result : postfixTestExpressions) {
+			System.out.println(result);
+		}
 
 	}
 
