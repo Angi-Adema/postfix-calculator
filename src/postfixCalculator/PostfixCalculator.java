@@ -15,6 +15,7 @@ public class PostfixCalculator {
 		Stack<Integer> stack = new Stack<>();
 		
 		// Initialize a new StringTokenizer object passing in the postfix
+		// Used this to handle spaces in expression input to differentiate single and multi digit numbers
 		StringTokenizer tokenizer = new StringTokenizer(postfixInput);
 		
 		// While loop to loop through input tokens
@@ -73,7 +74,7 @@ public class PostfixCalculator {
 						break;
 					default:
 						System.out.println("Invalid token: " + token);
-						break;
+						return 0;
 				}
 			}
 		}
@@ -132,20 +133,33 @@ public class PostfixCalculator {
 		
 		// Initialize an array to hold test postfix expressions
 		String[] postfixTestExpressions = {
-				"3 8 + 2 *",
-				"12 14 + 3 -",
-				"2 7 - 3 +",
-				"32 5 - 12 +",
-				"8 2 / 0 /",
-				"12 4 / 2 +",
-				"15 2 % 5 +",
-				"6 * 3 2 +"
+				"3 8 + 2 *",        // 3+8 = 11*2 = 22
+				"12 14 + 3 -",      // 12+14 = 26-3 = 23    
+				"2 7 - 3 +",        // 2-7 = -5+3 = -2
+				"32 5 - 12 +",      // 32-5 = 27+12 = 39
+				"8 2 / 0 /",        // 8/2 = 4/0 = "Cannot divide by 0." will return result equal to 0
+				"12 4 / 2 +",       // 12/4 = 3+2 = 5
+				"15 2 % 5 +",       // 15 % 2 = 1+5 = 6
+				"6 * 3 2 +"         // 6 * = "Invalid postfix expression." will return result equal to 0
 		};
 		
 		// Call inputPostfix() to evaluate each expression and output the result
 		for (String expression : postfixTestExpressions) {
-			System.out.println(expression + " result of expression evaluation: " + inputPostfix(expression));
+			
+			// Store result in a variable 
+			int result = inputPostfix(expression);
+			
+			// Return expected result or error message if unexpected
+			if (result != 0) {
+			System.out.println(expression + " result of expression evaluation: " + result);
+			}
 		}
+		
+		// Empty line separating data run in main() from data run from file input
+		System.out.println();
+		
+		// Read input from file and evaluate
+		inputFile("C:/Users/angia/bootcamp/miniprojects/csu-global/Data Structures and Algorithms/postfix-calculator/postfix.txt");
 
 	}
 
