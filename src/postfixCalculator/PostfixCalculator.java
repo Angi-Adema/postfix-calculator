@@ -143,8 +143,8 @@ public class PostfixCalculator {
 		};
 		
 		// Call inputPostfix() to evaluate each expression and output the result
-		for (String result : postfixTestExpressions) {
-			System.out.println(result);
+		for (String expression : postfixTestExpressions) {
+			System.out.println(expression + " result of expression evaluation: " + inputPostfix(expression));
 		}
 
 	}
