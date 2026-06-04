@@ -143,7 +143,7 @@ public class PostfixCalculator {
 		};
 		
 		// Call inputPostfix() to evaluate each expression and output the result
-		for (int result : postfixTestExpressions) {
+		for (String result : postfixTestExpressions) {
 			System.out.println(result);
 		}
 
