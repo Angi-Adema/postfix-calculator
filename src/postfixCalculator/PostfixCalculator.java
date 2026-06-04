@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 public class PostfixCalculator {
 	
 	// Method to calculate input postfix expression
-	public static int inputPostfix(String postfixInput) {
+	public static Integer inputPostfix(String postfixInput) {
 		
 		// Initialize a stack of type Integer to hold operands and calculated value
 		Stack<Integer> stack = new Stack<>();
@@ -37,7 +37,7 @@ public class PostfixCalculator {
 				// Verify there are at least two numbers saved onto the stack
 				if (stack.size() < 2) {
 					System.out.println("Invalid postfix expression.");
-					return 0;
+					return null;
 				}
 			
 				
@@ -61,7 +61,7 @@ public class PostfixCalculator {
 						stack.push(value1 / value2);
 						} catch (ArithmeticException e) {
 							System.out.println("Cannot divide by 0.");
-							return 0;
+							return null;
 						}
 						break;
 					case "%":
@@ -69,19 +69,19 @@ public class PostfixCalculator {
 						stack.push(value1 % value2);
 						} catch (ArithmeticException e) {
 							System.out.println("Cannot divide by 0.");
-							return 0;
+							return null;
 						}
 						break;
 					default:
 						System.out.println("Invalid token: " + token);
-						return 0;
+						return null;
 				}
 			}
 		}
 		// Confirm stack holds only one value, if not then invalid expression
 		if (stack.size() != 1) {
 			System.out.println("Invalid postfix expression, try again.");
-			return 0;
+			return null;
 		}
 		
 		// Return final result of the expression stored on the top of the stack
@@ -119,8 +119,15 @@ public class PostfixCalculator {
 				// Confirm the input is not blank
 				if (!postfix.isBlank()) {
 					
+					// Store result in a variable
+					Integer result = inputPostfix(postfix);
+					
+					// Print only if result is not an error or null
+					if (result != null) {
+					
 					// Print result of call to inputPostfix() to process the text
 					System.out.println(postfix + " result is " + inputPostfix(postfix));
+					}
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -142,17 +149,18 @@ public class PostfixCalculator {
 				"8 2 / 0 /",        // 8/2 = 4/0 = "Cannot divide by 0." will return result equal to 0
 				"12 4 / 2 +",       // 12/4 = 3+2 = 5
 				"15 2 % 5 +",       // 15 % 2 = 1+5 = 6
-				"6 * 3 2 +"         // 6 * = "Invalid postfix expression." will return result equal to 0
+				"6 * 3 2 +",        // 6 * = "Invalid postfix expression." will return result equal to 0
+				"5 5 -"             // 5-5 = 0
 		};
 		
 		// Call inputPostfix() to evaluate each expression and output the result
 		for (String expression : postfixTestExpressions) {
 			
 			// Store result in a variable 
-			int result = inputPostfix(expression);
+			Integer result = inputPostfix(expression);
 			
-			// Return expected result or error message if unexpected
-			if (result != 0) {
+			// Print only if result is not an error or null
+			if (result != null) {
 			System.out.println(expression + " result of expression evaluation: " + result);
 			}
 		}
