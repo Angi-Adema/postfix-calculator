@@ -130,6 +130,8 @@ public class PostfixCalculator {
 	}
 
 	public static void main(String[] args) {
+		// Print statement to indicate main() method results
+		System.out.println("~~~ Main method test results ~~~");
 		
 		// Initialize an array to hold test postfix expressions
 		String[] postfixTestExpressions = {
@@ -157,6 +159,9 @@ public class PostfixCalculator {
 		
 		// Empty line separating data run in main() from data run from file input
 		System.out.println();
+		
+		// Print statement to indicate .txt file results
+		System.out.println("~~~ .txt file test results ~~~");
 		
 		// Read input from file and evaluate
 		inputFile("C:/Users/angia/bootcamp/miniprojects/csu-global/Data Structures and Algorithms/postfix-calculator/postfix.txt");
