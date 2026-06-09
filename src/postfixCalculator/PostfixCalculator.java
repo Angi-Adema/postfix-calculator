@@ -99,6 +99,7 @@ public class PostfixCalculator {
 	}
 	
 	// Method to handle reading from file
+	// REFACTORED: Using new exception handler
 	public static void inputFile(String fileName) {
 		
 		// Instantiate new file object using file path
