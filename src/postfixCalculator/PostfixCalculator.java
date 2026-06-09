@@ -9,7 +9,8 @@ import java.util.StringTokenizer;
 public class PostfixCalculator {
 	
 	// Method to calculate input postfix expression
-	public static Integer inputPostfix(String postfixInput) {
+	// REFACTORED: Added throws clause after creating custom exception handler PostfixException
+	public static Integer inputPostfix(String postfixInput) throws PostfixException {
 		
 		// Initialize a stack of type Integer to hold operands and calculated value
 		Stack<Integer> stack = new Stack<>();
@@ -35,9 +36,9 @@ public class PostfixCalculator {
 			} else {
 				
 				// Verify there are at least two numbers saved onto the stack
+				// REFACTORED: Using the custom exception handler
 				if (stack.size() < 2) {
-					System.out.println("Invalid postfix expression.");
-					return null;
+					throw new PostfixException("Not enough operands for operator: " + token);
 				}
 			
 				
@@ -46,6 +47,7 @@ public class PostfixCalculator {
 				int value1 = stack.pop();
 				
 				// Switch holding each operation type pushing calculated number back to the stack
+				// REFACTORED: Using the custom error handler
 				switch(token) {
 					case "+":
 						stack.push(value1 + value2);
@@ -57,31 +59,26 @@ public class PostfixCalculator {
 						stack.push(value1 * value2);
 						break;
 					case "/":
-						try {
-						stack.push(value1 / value2);
-						} catch (ArithmeticException e) {
-							System.out.println("Cannot divide by 0.");
-							return null;
+						if (value2 == 0) {
+							throw new PostfixException("Cannot divide by zero.");
 						}
+						stack.push(value1 / value2);
 						break;
 					case "%":
-						try {
-						stack.push(value1 % value2);
-						} catch (ArithmeticException e) {
-							System.out.println("Cannot divide by 0.");
-							return null;
+						if (value2 == 0) {
+							throw new PostfixException("Cannot divide by zero.");
 						}
+						stack.push(value1 % value2);
 						break;
 					default:
-						System.out.println("Invalid token: " + token);
-						return null;
+						throw new PostfixException("Invalid token: " + token);
 				}
 			}
 		}
 		// Confirm stack holds only one value, if not then invalid expression
+		// REFACTORED: Using the custom exception handler
 		if (stack.size() != 1) {
-			System.out.println("Invalid postfix expression, try again.");
-			return null;
+			throw new PostfixException("Invalid postfix expression, try again.");
 		}
 		
 		// Return final result of the expression stored on the top of the stack
@@ -119,21 +116,22 @@ public class PostfixCalculator {
 				// Confirm the input is not blank
 				if (!postfix.isBlank()) {
 					
-					// Store result in a variable
-					Integer result = inputPostfix(postfix);
-					
-					// Print only if result is not an error or null
-					if (result != null) {
-					
+					// REFACTORED: Added try/catch using custom error handler
+					try {
+						// Store result in a variable
+						Integer result = inputPostfix(postfix);
+						
 						// Print result of call to inputPostfix() to process the text
 						System.out.println(postfix + " result is " + result);
+						
+					} catch (PostfixException e) {
+						System.out.println(e.getMessage());
 					}
 				}
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("Sorry, file was not found.");
 		}
-		
 	}
 
 	public static void main(String[] args) {
@@ -146,22 +144,26 @@ public class PostfixCalculator {
 				"12 14 + 3 -",      // 12+14 = 26-3 = 23    
 				"2 7 - 3 +",        // 2-7 = -5+3 = -2
 				"32 5 - 12 +",      // 32-5 = 27+12 = 39
-				"8 2 / 0 /",        // 8/2 = 4/0 = "Cannot divide by 0." will return a null result
+				"8 2 / 0 /",        // 8/2 = 4/0 = throws PostfixException: "Cannot divide by 0."
 				"12 4 / 2 +",       // 12/4 = 3+2 = 5
 				"15 2 % 5 +",       // 15 % 2 = 1+5 = 6
-				"6 * 3 2 +",        // 6 * = "Invalid postfix expression." will return a null result
+				"6 * 3 2 +",        // 6 * = throws PostfixException: "Invalid postfix expression."
 				"5 5 -"             // 5-5 = 0
 		};
 		
 		// Call inputPostfix() to evaluate each expression and output the result
 		for (String expression : postfixTestExpressions) {
 			
-			// Store result in a variable 
-			Integer result = inputPostfix(expression);
-			
-			// Print only if result is not an error or null
-			if (result != null) {
+			// REFACTORED: Added try/catch to utilize custom error handler
+			try {
+				
+				// Store result in a variable 
+				Integer result = inputPostfix(expression);
+				
+				// Moved print statement up and removed the null return after using custom handler
 				System.out.println(expression + " result of expression evaluation: " + result);
+			} catch (PostfixException e) {
+				System.out.println(e.getMessage());
 			}
 		}
 		
